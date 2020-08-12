@@ -31,7 +31,7 @@ def main():
         'lng': {'type': ['number', 'null']}
       }}
 
-  singer.write_schema('books', schema, 'id')
+  singer.write_schema('books', schema, '_id')
 
   for book in db:
     if 'books' in book and not book.endswith('_last'):

@@ -1,0 +1,4 @@
+{
+  "endpoint": "yourvaluehere-bluemix",
+  "api_key": "your_cloudant_legacy_authentication_apikey" 
+}

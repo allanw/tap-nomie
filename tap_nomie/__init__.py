@@ -27,8 +27,8 @@ def main():
         '_id': {'type': 'string'},
         'note': {'type': 'string'},
         'start': {'type': 'integer'},
-        'lat': {'type': ['integer', 'null']},
-        'lng': {'type': ['integer', 'null']}
+        'lat': {'type': ['number', 'null']},
+        'lng': {'type': ['number', 'null']}
       }}
 
   singer.write_schema('books', schema, 'id')

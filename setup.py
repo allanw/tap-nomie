@@ -18,7 +18,8 @@ setup(
     [console_scripts]
     tap-nomie=tap_nomie:main
     """,
-    packages=["tap_nomie"]
+    packages=["tap_nomie"],
+    package_dir={'tap_nomie': 'tap_nomie'}
     #package_data = {
     #    "schemas": ["{{cookiecutter.package_name}}/schemas/*.json"]
     #},

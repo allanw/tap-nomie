@@ -24,7 +24,11 @@ def main():
   schema = {'type': 'object',
     'properties':
       {
-        '_id': {'type': 'integer'},
+        '_id': {'type': 'string'},
+        'note': {'type': 'string'},
+        'start': {'type': 'integer'},
+        'lat': {'type': 'integer'},
+        'lng': {'type': 'integer'}
       }}
 
   singer.write_schema('books', schema, 'id')

@@ -8,6 +8,7 @@ setup(
     author="Al Whatmough",
     url="http://singer.io",
     classifiers=["Programming Language :: Python :: 3 :: Only"],
+    py_modules=["tap_nomie"],
     install_requires=[
         "singer-python>=5.0.12",
         "requests",
@@ -17,9 +18,9 @@ setup(
     [console_scripts]
     tap-nomie=tap_nomie:main
     """,
-    packages=["tap_nomie"],
+    packages=["tap_nomie"]
     #package_data = {
     #    "schemas": ["{{cookiecutter.package_name}}/schemas/*.json"]
     #},
-    include_package_data=True,
+#    include_package_data=True,
 )

@@ -4,11 +4,36 @@ import json
 
 REQUIRED_CONFIG_KEYS = ["endpoint", "api_key"]
 
-def main():
+schema = {'type': 'object',
+  'properties':
+    {
+      '_id': {'type': 'string'},
+      'note': {'type': 'string'},
+      'start': {'type': 'integer'},
+      'lat': {'type': ['number', 'null']},
+      'lng': {'type': ['number', 'null']}
+    }}
 
-  args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
+def get_catalog(schema):
+  streams = []
 
-  config = args.config
+  for schema_name, schema in schema['properties'].items():
+    catalog_entry = {
+            'stream': schema_name,
+            'tap_stream_id': schema_name,
+            'schema': schema,
+            'metadata': [], 
+            'key_properties': 'summary_date' 
+    }
+    streams.append(catalog_entry) 
+
+  return {'streams': streams}
+
+def do_discover(schema):
+  catalog = get_catalog(schema)
+  print(json.dumps(catalog, indent=2))
+
+def do_sync(config, schema):
 
   db_full_url = 'https://' + config['endpoint'] + ':' + config['api_key'] + '@' + config['endpoint'] + '.cloudantnosqldb.appdomain.cloud'
 
@@ -21,16 +46,6 @@ def main():
 
   db = couch['nomie-db']
 
-  schema = {'type': 'object',
-    'properties':
-      {
-        '_id': {'type': 'string'},
-        'note': {'type': 'string'},
-        'start': {'type': 'integer'},
-        'lat': {'type': ['number', 'null']},
-        'lng': {'type': ['number', 'null']}
-      }}
-
   singer.write_schema('books', schema, '_id')
 
   for book in db:
@@ -38,3 +53,13 @@ def main():
       data = db[book]['data']
       singer.write_records('books', data)
 
+def main():
+  args = singer.utils.parse_args(REQUIRED_CONFIG_KEYS)
+
+  if args.discover:
+    do_discover(schema)
+  else:
+    do_sync(args.config, schema)
+
+if __name__ == '__main__':
+  main()
